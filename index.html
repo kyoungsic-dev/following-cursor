@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap&subset=korean"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <title>Following cursor</title>
+  </head>
+
+  <body>
+    <div id="viewport">
+      <div class="pointer"></div>
+
+      <header>
+        <div class="inner">
+          <h1>Following cursor</h1>
+          <a href="https://github.com/kyoungsic-dev" target="_blank">Github</a>
+        </div>
+      </header>
+
+      <section class="demo-body">
+        <div class="inner">
+          <div class="demo-body__top">
+            <h1>Following cursor</h1>
+            <p>마우스 커서의 위치를 작은 포인터가 따라다니는 애니메이션</p>
+          </div>
+
+          <ul class="demo-body__list">
+            <li>
+              <h2>사용법</h2>
+              <h3 class="demo__pre-type">HTML</h3>
+              <pre><code class="html">
+  &lt;div class="pointer"&gt;&lt;/div&gt;
+
+</code></pre>
+              <h3 class="demo__pre-type">CSS</h3>
+              <pre><code class="css">
+  .pointer { position: fixed; pointer-events: none; top: 0; left: 0; width: 0.6vw; height: 0.6vw; border-radius: 50%; z-index: 9999999; }
+  .pointer:before { content: ''; position: absolute; border-radius: inherit; background: crimson; top: 0; left: 0; width: 100%; height: 100%; -webkit-transition: -webkit-transform 0.2s ease; transition: -webkit-transform 0.2s ease; transition: transform 0.2s ease; transition: transform 0.2s ease, -webkit-transform 0.2s ease; }
+
+</code></pre>
+              <h3 class="demo__pre-type">Javascript</h3>
+              <pre><code class="javascript">
+  let x = 0,
+  y = 0,
+  currX = 0,
+  currY = 0;
+
+  const cursor = document.querySelector('.pointer');
+
+  const mouseMove = () => {
+    requestAnimationFrame(() => {
+      currX = currX + (x - currX) * 0.15;
+      currY = currY + (y - currY) * 0.15;
+
+      cursor.style.transform = `translate(calc(${currX}px - .35vw), calc(${currY}px - .35vw))`;
+
+      mouseMove();
+    });
+  };
+
+  document.addEventListener('mousemove', event => {
+    let e = event.touches ? event.touches[0] : event;
+    x = e.clientX;
+    y = e.clientY;
+  });
+
+  mouseMove();
+
+</code></pre>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      $(function () {
+        document.querySelectorAll('pre code').forEach(el => {
+          hljs.highlightElement(el);
+        });
+      });
+    </script>
+
+    <script>
+      let x = 0,
+        y = 0,
+        currX = 0,
+        currY = 0;
+
+      const cursor = document.querySelector('.pointer');
+
+      const mouseMove = () => {
+        requestAnimationFrame(() => {
+          currX = currX + (x - currX) * 0.15;
+          currY = currY + (y - currY) * 0.15;
+
+          cursor.style.transform = `translate(calc(${currX}px - .35vw), calc(${currY}px - .35vw))`;
+
+          mouseMove();
+        });
+      };
+
+      document.addEventListener('mousemove', event => {
+        let e = event.touches ? event.touches[0] : event;
+        x = e.clientX;
+        y = e.clientY;
+      });
+
+      mouseMove();
+    </script>
+  </body>
+</html>
